@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="edu.uees.tutorias.service.ServicioReservasTest" time="0.611" tests="11" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="edu.uees.tutorias.service.ServicioReservasTest" time="0.317" tests="11" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="ES"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-21-openjdk-21.0.10.0.7-1.el8.x86_64/lib"/>
-    <property name="sun.java.command" value="/home/ivanstalyn/Documentos/YO/UEES/Diseño de software/semana 5/AE44/semana5-code-smells/target/surefire/surefirebooter-20260915203844434_3.jar /home/ivanstalyn/Documentos/YO/UEES/Diseño de software/semana 5/AE44/semana5-code-smells/target/surefire 2026-09-15T20-38-44_168-jvmRun1 surefire-20260915203844434_1tmp surefire_0-20260915203844434_2tmp"/>
+    <property name="sun.java.command" value="/home/ivanstalyn/Documentos/YO/UEES/Diseño de software/semana 5/AE44/semana5-code-smells/target/surefire/surefirebooter-20260915205720090_3.jar /home/ivanstalyn/Documentos/YO/UEES/Diseño de software/semana 5/AE44/semana5-code-smells/target/surefire 2026-09-15T20-57-19_734-jvmRun1 surefire-20260915205720090_1tmp surefire_0-20260915205720090_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/ivanstalyn/Documentos/YO/UEES/Diseño de software/semana 5/AE44/semana5-code-smells/target/test-classes:/home/ivanstalyn/Documentos/YO/UEES/Diseño de software/semana 5/AE44/semana5-code-smells/target/classes:/home/ivanstalyn/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar:/home/ivanstalyn/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/home/ivanstalyn/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/ivanstalyn/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/home/ivanstalyn/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/ivanstalyn/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/home/ivanstalyn/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/home/ivanstalyn/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -28,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/home/ivanstalyn/Documentos/YO/UEES/Diseño de software/semana 5/AE44/semana5-code-smells/target/surefire/surefirebooter-20260915203844434_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/ivanstalyn/Documentos/YO/UEES/Diseño de software/semana 5/AE44/semana5-code-smells/target/surefire/surefirebooter-20260915205720090_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.10+7-LTS"/>
     <property name="user.name" value="ivanstalyn"/>
@@ -55,7 +55,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="crearReserva_debeRegistrarLaReservaEnElHistorialDelEstudiante" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.319">
+  <testcase name="crearReserva_debeRegistrarLaReservaEnElHistorialDelEstudiante" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.142">
     <system-out><![CDATA[EMAIL a ana@uees.edu.ec: Reserva creada. ID=1
 === TICKET ===
 Reserva  : 1
@@ -66,7 +66,7 @@ Materia  : Diseno de Software
 AUDIT: reserva 1 creada por Ana Lopez en horario 100
 ]]></system-out>
   </testcase>
-  <testcase name="reprogramarReserva_aHorarioDisponible_debeLiberarHorarioAnteriorYOcuparNuevo" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.019">
+  <testcase name="reprogramarReserva_aHorarioDisponible_debeLiberarHorarioAnteriorYOcuparNuevo" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.013">
     <system-out><![CDATA[EMAIL a ana@uees.edu.ec: Reserva creada. ID=1
 === TICKET ===
 Reserva  : 1
@@ -91,7 +91,7 @@ Materia  : Diseno de Software
 AUDIT: reserva 1 creada por Ana Lopez en horario 100
 ]]></system-out>
   </testcase>
-  <testcase name="crearReserva_conDatosValidos_debeOcuparHorarioYRetornarReserva" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.006">
+  <testcase name="crearReserva_conDatosValidos_debeOcuparHorarioYRetornarReserva" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.005">
     <system-out><![CDATA[EMAIL a ana@uees.edu.ec: Reserva creada. ID=1
 === TICKET ===
 Reserva  : 1
@@ -102,7 +102,7 @@ Materia  : Diseno de Software
 AUDIT: reserva 1 creada por Ana Lopez en horario 100
 ]]></system-out>
   </testcase>
-  <testcase name="confirmarReserva_reservaExistente_debeCambiarEstadoAConfirmada" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.011">
+  <testcase name="confirmarReserva_reservaExistente_debeCambiarEstadoAConfirmada" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.005">
     <system-out><![CDATA[EMAIL a ana@uees.edu.ec: Reserva creada. ID=1
 === TICKET ===
 Reserva  : 1
@@ -114,7 +114,7 @@ AUDIT: reserva 1 creada por Ana Lopez en horario 100
 EMAIL a ana@uees.edu.ec: Reserva 1 confirmada.
 ]]></system-out>
   </testcase>
-  <testcase name="cancelarReserva_conAnticipacionInsuficiente_noDebeCancelar" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.007">
+  <testcase name="cancelarReserva_conAnticipacionInsuficiente_noDebeCancelar" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.003">
     <system-out><![CDATA[EMAIL a ana@uees.edu.ec: Reserva creada. ID=1
 === TICKET ===
 Reserva  : 1
@@ -125,7 +125,7 @@ Materia  : Diseno de Software
 AUDIT: reserva 1 creada por Ana Lopez en horario 100
 ]]></system-out>
   </testcase>
-  <testcase name="reprogramarReserva_aHorarioNoDisponible_noDebeReprogramar" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.004">
+  <testcase name="reprogramarReserva_aHorarioNoDisponible_noDebeReprogramar" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.008">
     <system-out><![CDATA[EMAIL a ana@uees.edu.ec: Reserva creada. ID=1
 === TICKET ===
 Reserva  : 1
@@ -136,9 +136,9 @@ Materia  : Diseno de Software
 AUDIT: reserva 1 creada por Ana Lopez en horario 100
 ]]></system-out>
   </testcase>
-  <testcase name="crearReserva_conEstudianteNulo_debeRetornarNulo" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.003"/>
-  <testcase name="puedeCancelar_reservaNula_debeRetornarFalse" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.003"/>
-  <testcase name="cancelarReserva_conAnticipacionSuficiente_debeCancelarYLiberarHorario" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.01">
+  <testcase name="crearReserva_conEstudianteNulo_debeRetornarNulo" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.004"/>
+  <testcase name="puedeCancelar_reservaNula_debeRetornarFalse" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.009"/>
+  <testcase name="cancelarReserva_conAnticipacionSuficiente_debeCancelarYLiberarHorario" classname="edu.uees.tutorias.service.ServicioReservasTest" time="0.02">
     <system-out><![CDATA[EMAIL a ana@uees.edu.ec: Reserva creada. ID=1
 === TICKET ===
 Reserva  : 1

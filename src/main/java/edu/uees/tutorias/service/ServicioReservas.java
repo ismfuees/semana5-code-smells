@@ -12,12 +12,13 @@ import java.util.List;
  * Servicio principal del sistema de tutorias.
  *
  * Code smells presentes (pendientes de refactorizacion):
- *   3. Duplicated Code    - la validacion de disponibilidad se repite en crearReserva() y reprogramarReserva()
  *   4. Nested Conditionals- condicionales anidados a 4 niveles en lugar de guard clauses
  *   5. Mixed Responsibilities - crearReserva() mezcla negocio, persistencia, notificacion y reporte
  *   6. Comments as Deodorant  - comentarios que compensan estructura poco clara
  */
 public class ServicioReservas {
+
+    private static final int HORAS_MINIMAS_ANTICIPACION = 2;
 
     private final RepositorioReservas repositorio;
     private final List<Docente> docentes = new ArrayList<>();
@@ -31,17 +32,14 @@ public class ServicioReservas {
         docentes.add(docente);
     }
 
-    // NOTA: los condicionales anidados (smell 4) y la duplicacion (smell 3) se corrigen
-    // en la siguiente iteracion. Aqui solo se extrae el Long Method.
+    // NOTA: los condicionales anidados (smell 4) se corrigen en la siguiente iteracion.
     public Reserva crearReserva(Estudiante estudiante, HorarioTutoria horario, int horasAnticipacion) {
         // verificar que el estudiante no sea nulo
         if (estudiante != null) {
             // verificar que el horario no sea nulo
             if (horario != null) {
-                // verificar que el horario este disponible para reservar
-                if (horario.estaDisponible()) {
-                    // verificar que se reserva con suficiente anticipacion (minimo 2 horas)
-                    if (horasAnticipacion >= 2) {
+                if (horarioDisponible(horario)) {
+                    if (cumpleAnticipacion(horasAnticipacion)) {
                         horario.reservar();
                         Reserva reserva = new Reserva(contadorId++, estudiante, horario);
                         repositorio.guardar(reserva);
@@ -55,6 +53,14 @@ public class ServicioReservas {
             }
         }
         return null;
+    }
+
+    private boolean horarioDisponible(HorarioTutoria horario) {
+        return horario.estaDisponible();
+    }
+
+    private boolean cumpleAnticipacion(int horasAnticipacion) {
+        return horasAnticipacion >= HORAS_MINIMAS_ANTICIPACION;
     }
 
     private void notificarCreacion(Estudiante estudiante, Reserva reserva) {
@@ -87,11 +93,7 @@ public class ServicioReservas {
         if (reserva.isCancelada()) {
             return false;
         }
-        // minimo 2 horas de anticipacion para cancelar
-        if (horasAnticipacion < 2) {
-            return false;
-        }
-        return true;
+        return cumpleAnticipacion(horasAnticipacion);
     }
 
     // cancela la reserva con el id dado si se cumplen las condiciones
@@ -118,12 +120,8 @@ public class ServicioReservas {
         if (reserva != null) {
             // verificar que el nuevo horario no sea nulo
             if (nuevoHorario != null) {
-                // verificar que el nuevo horario este disponible para reservar
-                // DUPLICADO: la misma validacion ya existe en crearReserva() (smell 3 pendiente)
-                if (nuevoHorario.estaDisponible()) {
-                    // verificar anticipacion minima de 2 horas
-                    // DUPLICADO: el mismo limite ya aparece en crearReserva() y puedeCancelar() (smell 3 pendiente)
-                    if (horasAnticipacion >= 2) {
+                if (horarioDisponible(nuevoHorario)) {
+                    if (cumpleAnticipacion(horasAnticipacion)) {
                         reserva.reprogramar(nuevoHorario);
                         repositorio.guardar(reserva);
                         System.out.println("EMAIL a " + reserva.getEstudiante().getEmail()
