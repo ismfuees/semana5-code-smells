@@ -1,4 +1,6 @@
 edu/uees/tutorias/domain/EstadoReserva.class
+edu/uees/tutorias/service/NotificadorReservas.class
 edu/uees/tutorias/domain/Reserva.class
 edu/uees/tutorias/domain/Asignatura.class
+edu/uees/tutorias/service/AuditorReservas.class
 edu/uees/tutorias/domain/HorarioTutoria.class

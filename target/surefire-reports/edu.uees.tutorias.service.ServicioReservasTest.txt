@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: edu.uees.tutorias.service.ServicioReservasTest
 -------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.349 s -- in edu.uees.tutorias.service.ServicioReservasTest
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.277 s -- in edu.uees.tutorias.service.ServicioReservasTest

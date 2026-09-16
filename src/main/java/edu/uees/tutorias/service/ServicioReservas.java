@@ -9,22 +9,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Servicio principal del sistema de tutorias.
- *
- * Code smells presentes (pendientes de refactorizacion):
- *   5. Mixed Responsibilities - crearReserva() mezcla negocio, persistencia, notificacion y reporte
- *   6. Comments as Deodorant  - comentarios que compensan estructura poco clara
+ * Responsabilidad única: orquestar la lógica de negocio de reservas de tutoría.
+ * <p>
+ * No envía notificaciones ni genera reportes directamente.
+ * Esas responsabilidades pertenecen a NotificadorReservas y AuditorReservas.
  */
 public class ServicioReservas {
 
     private static final int HORAS_MINIMAS_ANTICIPACION = 2;
 
     private final RepositorioReservas repositorio;
+    private final NotificadorReservas notificador;
+    private final AuditorReservas auditor;
     private final List<Docente> docentes = new ArrayList<>();
     private long contadorId = 1;
 
     public ServicioReservas(RepositorioReservas repositorio) {
+        this(repositorio, new NotificadorReservas(), new AuditorReservas());
+    }
+
+    public ServicioReservas(RepositorioReservas repositorio,
+                            NotificadorReservas notificador,
+                            AuditorReservas auditor) {
         this.repositorio = repositorio;
+        this.notificador = notificador;
+        this.auditor = auditor;
     }
 
     public void agregarDocente(Docente docente) {
@@ -32,47 +41,18 @@ public class ServicioReservas {
     }
 
     public Reserva crearReserva(Estudiante estudiante, HorarioTutoria horario, int horasAnticipacion) {
-        if (estudiante == null)                return null;
-        if (horario == null)                   return null;
-        if (!horarioDisponible(horario))       return null;
+        if (estudiante == null)                     return null;
+        if (horario == null)                        return null;
+        if (!horarioDisponible(horario))            return null;
         if (!cumpleAnticipacion(horasAnticipacion)) return null;
 
         horario.reservar();
         Reserva reserva = new Reserva(contadorId++, estudiante, horario);
         repositorio.guardar(reserva);
         estudiante.registrarReserva(reserva);
-        notificarCreacion(estudiante, reserva);
-        imprimirTicket(reserva, horario);
-        registrarAuditoria(reserva, horario);
+        notificador.notificarCreacion(reserva);
+        auditor.registrarCreacion(reserva);
         return reserva;
-    }
-
-    private boolean horarioDisponible(HorarioTutoria horario) {
-        return horario.estaDisponible();
-    }
-
-    private boolean cumpleAnticipacion(int horasAnticipacion) {
-        return horasAnticipacion >= HORAS_MINIMAS_ANTICIPACION;
-    }
-
-    private void notificarCreacion(Estudiante estudiante, Reserva reserva) {
-        System.out.println("EMAIL a " + estudiante.getEmail()
-                + ": Reserva creada. ID=" + reserva.getId());
-    }
-
-    private void imprimirTicket(Reserva reserva, HorarioTutoria horario) {
-        System.out.println("=== TICKET ===");
-        System.out.println("Reserva  : " + reserva.getId());
-        System.out.println("Estudiante: " + reserva.getEstudiante().getNombre());
-        System.out.println("Horario  : " + horario.getId());
-        System.out.println("Materia  : " + horario.getAsignatura().getNombre());
-        System.out.println("==============");
-    }
-
-    private void registrarAuditoria(Reserva reserva, HorarioTutoria horario) {
-        System.out.println("AUDIT: reserva " + reserva.getId()
-                + " creada por " + reserva.getEstudiante().getNombre()
-                + " en horario " + horario.getId());
     }
 
     public boolean puedeCancelar(Reserva reserva, int horasAnticipacion) {
@@ -83,28 +63,25 @@ public class ServicioReservas {
 
     public void cancelarReserva(Long reservaId, int horasAnticipacion) {
         Reserva reserva = repositorio.buscarPorId(reservaId);
-        if (reserva == null)                         return;
+        if (reserva == null)                            return;
         if (!puedeCancelar(reserva, horasAnticipacion)) return;
 
         reserva.cancelar();
-        System.out.println("EMAIL a " + reserva.getEstudiante().getEmail()
-                + ": Reserva " + reservaId + " cancelada.");
-        System.out.println("AUDIT: reserva " + reservaId + " cancelada.");
+        notificador.notificarCancelacion(reserva);
+        auditor.registrarCancelacion(reserva);
     }
 
     public void reprogramarReserva(Long reservaId, HorarioTutoria nuevoHorario, int horasAnticipacion) {
         Reserva reserva = repositorio.buscarPorId(reservaId);
-        if (reserva == null)                       return;
-        if (nuevoHorario == null)                  return;
-        if (!horarioDisponible(nuevoHorario))      return;
+        if (reserva == null)                        return;
+        if (nuevoHorario == null)                   return;
+        if (!horarioDisponible(nuevoHorario))       return;
         if (!cumpleAnticipacion(horasAnticipacion)) return;
 
         reserva.reprogramar(nuevoHorario);
         repositorio.guardar(reserva);
-        System.out.println("EMAIL a " + reserva.getEstudiante().getEmail()
-                + ": Reserva " + reservaId + " reprogramada a horario " + nuevoHorario.getId());
-        System.out.println("AUDIT: reserva " + reservaId
-                + " reprogramada a horario " + nuevoHorario.getId());
+        notificador.notificarReprogramacion(reserva);
+        auditor.registrarReprogramacion(reserva);
     }
 
     public void confirmarReserva(Long reservaId) {
@@ -112,16 +89,19 @@ public class ServicioReservas {
         if (reserva == null) return;
 
         reserva.confirmar();
-        System.out.println("EMAIL a " + reserva.getEstudiante().getEmail()
-                + ": Reserva " + reservaId + " confirmada.");
+        notificador.notificarConfirmacion(reserva);
+        auditor.registrarConfirmacion(reserva);
     }
 
-    // imprime en consola el resumen de todas las reservas de un estudiante
     public void imprimirResumen(Estudiante estudiante) {
-        System.out.println("--- Reservas de " + estudiante.getNombre() + " ---");
-        for (Reserva reserva : estudiante.getReservas()) {
-            System.out.println("  " + reserva);
-        }
-        System.out.println("----------------------------");
+        auditor.imprimirResumen(estudiante);
+    }
+
+    private boolean horarioDisponible(HorarioTutoria horario) {
+        return horario.estaDisponible();
+    }
+
+    private boolean cumpleAnticipacion(int horasAnticipacion) {
+        return horasAnticipacion >= HORAS_MINIMAS_ANTICIPACION;
     }
 }
