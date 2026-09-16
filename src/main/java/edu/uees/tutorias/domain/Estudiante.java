@@ -17,7 +17,6 @@ public class Estudiante extends Usuario {
         reservas.add(reserva);
     }
 
-    // devuelve todas las reservas, sin proteger la lista
     public List<Reserva> getReservas() {
         return reservas;
     }

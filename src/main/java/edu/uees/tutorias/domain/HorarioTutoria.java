@@ -8,7 +8,6 @@ public class HorarioTutoria {
     private final LocalDateTime inicio;
     private final LocalDateTime fin;
     private final Asignatura asignatura;
-    // true si nadie lo ha reservado todavia
     private boolean disponible;
 
     public HorarioTutoria(Long id, LocalDateTime inicio, LocalDateTime fin, Asignatura asignatura) {
@@ -19,7 +18,6 @@ public class HorarioTutoria {
         this.disponible = true;
     }
 
-    // marca como ocupado
     public void reservar() {
         if (!disponible) {
             throw new IllegalStateException("Horario ya ocupado.");
@@ -27,7 +25,6 @@ public class HorarioTutoria {
         this.disponible = false;
     }
 
-    // libera el horario cuando se cancela
     public void liberar() {
         this.disponible = true;
     }

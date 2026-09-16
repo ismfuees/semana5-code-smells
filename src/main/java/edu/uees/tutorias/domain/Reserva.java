@@ -8,7 +8,6 @@ public class Reserva {
     private final Estudiante estudiante;
     private HorarioTutoria horario;
     private EstadoReserva estado;
-    // fecha en que se creo la reserva
     private final LocalDateTime fechaCreacion;
 
     public Reserva(Long id, Estudiante estudiante, HorarioTutoria horario) {
@@ -19,7 +18,6 @@ public class Reserva {
         this.fechaCreacion = LocalDateTime.now();
     }
 
-    // confirma la reserva si esta pendiente
     public void confirmar() {
         if (estado != EstadoReserva.PENDIENTE) {
             throw new IllegalStateException(
@@ -28,7 +26,6 @@ public class Reserva {
         this.estado = EstadoReserva.CONFIRMADA;
     }
 
-    // cancela la reserva y libera el horario
     public void cancelar() {
         if (estado == EstadoReserva.CANCELADA || estado == EstadoReserva.REALIZADA) {
             throw new IllegalStateException("No se puede cancelar. Estado: " + estado);
@@ -37,7 +34,6 @@ public class Reserva {
         this.horario.liberar();
     }
 
-    // reprograma a otro horario
     public void reprogramar(HorarioTutoria nuevoHorario) {
         if (estado == EstadoReserva.CANCELADA || estado == EstadoReserva.REALIZADA) {
             throw new IllegalStateException("No se puede reprogramar. Estado: " + estado);
@@ -48,7 +44,6 @@ public class Reserva {
         this.estado = EstadoReserva.PENDIENTE;
     }
 
-    // marca como realizada cuando la tutoria ocurrio
     public void marcarRealizada() {
         if (estado != EstadoReserva.CONFIRMADA) {
             throw new IllegalStateException(
