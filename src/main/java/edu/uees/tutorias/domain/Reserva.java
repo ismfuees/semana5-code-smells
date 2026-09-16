@@ -2,22 +2,21 @@ package edu.uees.tutorias.domain;
 
 import java.time.LocalDateTime;
 
-// Representa la reserva de una tutoria por parte de un estudiante
 public class Reserva {
 
     private final Long id;
-    private final Est e;      // el estudiante que reservo
-    private HorarioTutoria h; // el horario reservado
+    private final Estudiante estudiante;
+    private HorarioTutoria horario;
     private EstadoReserva estado;
     // fecha en que se creo la reserva
-    private final LocalDateTime fc;
+    private final LocalDateTime fechaCreacion;
 
-    public Reserva(Long id, Est e, HorarioTutoria h) {
+    public Reserva(Long id, Estudiante estudiante, HorarioTutoria horario) {
         this.id = id;
-        this.e = e;
-        this.h = h;
+        this.estudiante = estudiante;
+        this.horario = horario;
         this.estado = EstadoReserva.PENDIENTE;
-        this.fc = LocalDateTime.now();
+        this.fechaCreacion = LocalDateTime.now();
     }
 
     // confirma la reserva si esta pendiente
@@ -35,17 +34,17 @@ public class Reserva {
             throw new IllegalStateException("No se puede cancelar. Estado: " + estado);
         }
         this.estado = EstadoReserva.CANCELADA;
-        this.h.liberar();
+        this.horario.liberar();
     }
 
     // reprograma a otro horario
-    public void reprogramar(HorarioTutoria nh) {
+    public void reprogramar(HorarioTutoria nuevoHorario) {
         if (estado == EstadoReserva.CANCELADA || estado == EstadoReserva.REALIZADA) {
             throw new IllegalStateException("No se puede reprogramar. Estado: " + estado);
         }
-        this.h.liberar();
-        nh.reservar();
-        this.h = nh;
+        this.horario.liberar();
+        nuevoHorario.reservar();
+        this.horario = nuevoHorario;
         this.estado = EstadoReserva.PENDIENTE;
     }
 
@@ -58,18 +57,18 @@ public class Reserva {
         this.estado = EstadoReserva.REALIZADA;
     }
 
-    public Long getId()           { return id; }
-    public Est getEstudiante()    { return e; }
-    public HorarioTutoria getH()  { return h; }
-    public EstadoReserva getEstado() { return estado; }
-    public LocalDateTime getFc()  { return fc; }
+    public Long getId()                  { return id; }
+    public Estudiante getEstudiante()    { return estudiante; }
+    public HorarioTutoria getHorario()   { return horario; }
+    public EstadoReserva getEstado()     { return estado; }
+    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
 
-    public boolean isCancelada()  { return estado == EstadoReserva.CANCELADA; }
+    public boolean isCancelada() { return estado == EstadoReserva.CANCELADA; }
 
     @Override
     public String toString() {
         return "Reserva[id=" + id + ", estado=" + estado
-                + ", estudiante=" + e.getNombre()
-                + ", horario=" + h.getId() + "]";
+                + ", estudiante=" + estudiante.getNombre()
+                + ", horario=" + horario.getId() + "]";
     }
 }

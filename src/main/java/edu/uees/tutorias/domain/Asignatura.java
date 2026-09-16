@@ -7,22 +7,20 @@ public class Asignatura {
 
     private final Long id;
     private final String nombre;
-    // codigo de la materia en el sistema academico
-    private final String c;
+    private final String codigo;
 
-    public Asignatura(Long id, String nombre, String c) {
+    public Asignatura(Long id, String nombre, String codigo) {
         this.id = id;
         this.nombre = nombre;
-        this.c = c;
+        this.codigo = codigo;
     }
 
-    public Long getId()      { return id; }
+    public Long getId()       { return id; }
     public String getNombre() { return nombre; }
-    // retorna el codigo
-    public String getCodigo() { return c; }
+    public String getCodigo() { return codigo; }
 
     @Override
     public String toString() {
-        return "Asignatura[" + c + " - " + nombre + "]";
+        return "Asignatura[" + codigo + " - " + nombre + "]";
     }
 }
